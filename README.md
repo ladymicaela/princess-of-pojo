@@ -1,4 +1,4 @@
-# Princess of Pogo
+# Princess of Pojo
 
 <!-- [Live Demo]() -->
 
