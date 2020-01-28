@@ -66,25 +66,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let hasMoved = false;
 
-        if (keyPresses.ArrowUp && lastDirection === "RIGHT") {
+        if (keyPresses.w && lastDirection === "RIGHT") {
             moveCharacter(0, -MOVEMENT_SPEED, FACING_RIGHT);
             hasMoved = true;
-        } else if (keyPresses.ArrowDown && lastDirection === "RIGHT") {
+        } else if (keyPresses.s && lastDirection === "RIGHT") {
             moveCharacter(0, MOVEMENT_SPEED, FACING_RIGHT);
             hasMoved = true;
         }
-        if (keyPresses.ArrowUp && lastDirection === "LEFT") {
+        if (keyPresses.w && lastDirection === "LEFT") {
             moveCharacter(0, -MOVEMENT_SPEED, FACING_LEFT);
             hasMoved = true;
-        } else if (keyPresses.ArrowDown && lastDirection === "LEFT") {
+        } else if (keyPresses.s && lastDirection === "LEFT") {
             moveCharacter(0, MOVEMENT_SPEED, FACING_LEFT);
             hasMoved = true;
         }
-        if (keyPresses.ArrowLeft) {
+        if (keyPresses.a) {
             moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
             hasMoved = true;
             lastDirection = "LEFT"
-        } else if (keyPresses.ArrowRight) {
+        } else if (keyPresses.d) {
             moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
             hasMoved = true;
             lastDirection = "RIGHT"
