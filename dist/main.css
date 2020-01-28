@@ -9,6 +9,8 @@ body {
 .game-container {
     display: flex;
     align-items: center;
+    padding: 10px;
+    width: 100%;
 }
 
 canvas {
@@ -26,30 +28,47 @@ canvas {
     align-items: center;
 }
 
-.canvas-container hr {
-    border-bottom: solid 1px black;
-    width: 300px;
+.canvas-container h1 {
+    margin: 0;
+    font-size: 40px;
+    padding: 0 20px;
 }
+
+.canvas-container hr {
+    border-bottom: solid 2px black;
+    width: 400px;
+}
+
+.canvas-container i {
+    font-size: 40px;
+    transform: rotate(-20deg);
+    color: gold;
+}
+
+.game-key-legend-container {
+    padding: 0 5px;
+}
+
 
 .game-key-legend {
     display: flex;
     flex-direction: column;
     border: solid 5px black;
-    margin: 20px;
-    padding: 10px;
+    margin: 10px;
+    padding: 5px;
     border-radius: 10px;
     width: 300px;
     align-items: center;
 }
 
 .game-key-legend h1 {
-    margin: 10px;
+    margin: 5px;
 }
 
 .game-key-legend hr {
     border-bottom: solid 1px black;
     width: 250px;
-    margin: 10px;
+    margin: 5px;
 }
 
 .game-key-div {
