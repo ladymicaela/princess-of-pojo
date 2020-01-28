@@ -1,0 +1,25 @@
+{
+  "name": "princess-of-pojo",
+  "version": "1.0.0",
+  "description": "<!-- [Live Demo]() -->",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ladymicaela/princess-of-pojo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ladymicaela/princess-of-pojo/issues"
+  },
+  "homepage": "https://github.com/ladymicaela/princess-of-pojo#readme",
+  "dependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
