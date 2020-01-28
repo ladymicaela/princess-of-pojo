@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const SCALE = .5;
     const WIDTH = 223;
-    const HEIGHT = 235;
+    const HEIGHT = 225;
     const SCALED_WIDTH = SCALE * WIDTH;
     const SCALED_HEIGHT = SCALE * HEIGHT;
     const CYCLE_LOOP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const GOING_UP = 1;
     const GOING_DOWN = 1;
 
+    const SLASH_RIGHT = 3;
+    const SLASH_LEFT = 2;
+
     const MOVEMENT_SPEED = 1;
     const FRAME_LIMIT = 12;
 
@@ -23,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let ctx = canvasEl.getContext('2d');
     let keyPresses = {};
     let currentDirection = FACING_RIGHT;
+    let lastDirection = "RIGHT"
     let currentLoopIndex = 0;
     let frameCount = 0;
     let positionX = 0;
@@ -42,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function loadImage() {
-        img.src = './running_spritesheet.png'
+        img.src = './spritesheet.png'
         img.onload = function () {
             window.requestAnimationFrame(gameLoop);
         }
@@ -62,18 +66,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let hasMoved = false;
 
-        if (keyPresses.ArrowUp) {
-            moveCharacter(0, -MOVEMENT_SPEED, GOING_UP);
+        if (keyPresses.ArrowUp && lastDirection === "RIGHT") {
+            moveCharacter(0, -MOVEMENT_SPEED, FACING_RIGHT);
             hasMoved = true;
-        } else if (keyPresses.ArrowDown) {
-            moveCharacter(0, MOVEMENT_SPEED, GOING_DOWN);
+        } else if (keyPresses.ArrowDown && lastDirection === "RIGHT") {
+            moveCharacter(0, MOVEMENT_SPEED, FACING_RIGHT);
+            hasMoved = true;
+        }
+        if (keyPresses.ArrowUp && lastDirection === "LEFT") {
+            moveCharacter(0, -MOVEMENT_SPEED, FACING_LEFT);
+            hasMoved = true;
+        } else if (keyPresses.ArrowDown && lastDirection === "LEFT") {
+            moveCharacter(0, MOVEMENT_SPEED, FACING_LEFT);
             hasMoved = true;
         }
         if (keyPresses.ArrowLeft) {
             moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
             hasMoved = true;
+            lastDirection = "LEFT"
         } else if (keyPresses.ArrowRight) {
             moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
+            hasMoved = true;
+            lastDirection = "RIGHT"
+        }
+
+        if (keyPresses.Shift && lastDirection === "RIGHT") {
+            moveCharacter(0, 0, SLASH_RIGHT)
+            hasMoved = true;
+        } else if (keyPresses.Shift && lastDirection === "LEFT") {
+            moveCharacter(0, 0, SLASH_LEFT)
             hasMoved = true;
         }
 
