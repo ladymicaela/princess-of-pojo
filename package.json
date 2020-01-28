@@ -1,7 +1,7 @@
 {
   "name": "princess-of-pojo",
   "version": "1.0.0",
-  "description": "<!-- [Live Demo]() -->",
+  "description": "Princess of Pojo is based on the classic platformer Prince of Persia",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
