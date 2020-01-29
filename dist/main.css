@@ -120,10 +120,10 @@ footer {
 /* new css from game tutorial below */
 
 .background { 
-    background: lightgray;
+    /* background: lightgray; */
     table-layout: fixed;
     border-spacing: 0;
-    background-image: url("./Background.png");
+    /* background-image: url("./Background.png"); */
 }
 
 .background td { 
@@ -131,19 +131,19 @@ footer {
 }
 
 .lava { 
-    background: rgb(255, 100, 100);
-    background-image: url("./lava_tile1.png");
+    /* background: rgb(255, 100, 100); */
+    /* background-image: url("./lava_tile1.png"); */
 }
 
 .wall { 
-    background: grey;
-    background-image: url("./tile5.png");
+    /* background: grey; */
+    /* background-image: url("./tile5.png"); */
 }
 
 .door {
-  background: black;
+  /* background: black;
   border: solid black;
-  border-radius: 10px;
+  border-radius: 10px; */
 }
 
 .actor {
@@ -151,19 +151,19 @@ footer {
 }
 
 .player { 
-    background: rgb(64, 64, 64);
+    /* background: rgb(64, 64, 64); */
 }
 
 .lost .player {
-  background: rgb(160, 64, 64);
+  /* background: rgb(160, 64, 64); */
 }
 .won .player {
-  box-shadow: -4px -7px 8px white, 4px -7px 8px white;
+  /* box-shadow: -4px -7px 8px white, 4px -7px 8px white; */
 }
 
 .game {
   overflow: hidden;
-  /* max-width: 600px;
-  max-height: 450px; */
+  max-width: 600px;
+  max-height: 450px;
   position: relative;
 }

@@ -1,17 +1,22 @@
-class Vec {
+class Vector {
+
     constructor(x, y) {
         this.x = x; this.y = y;
     }
+
     plus(other) {
-        return new Vec(this.x + other.x, this.y + other.y);
+        return new Vector(this.x + other.x, this.y + other.y);
     }
+
     times(factor) {
-        return new Vec(this.x * factor, this.y * factor);
+        return new Vector(this.x * factor, this.y * factor);
     }
+
 }
 
 
 class Player {
+
     constructor(pos, speed) {
         this.pos = pos;
         this.speed = speed;
@@ -20,12 +25,13 @@ class Player {
     get type() { return "player"; }
 
     static create(pos) {
-        return new Player(pos.plus(new Vec(0, -0.5)),
-            new Vec(0, 0));
+        return new Player(pos.plus(new Vector(0, -0.6)),
+            new Vector(0, 0));
     }
+    
 }
 
-Player.prototype.size = new Vec(0.8, 1.5)
+Player.prototype.size = new Vector(0.8, 1.6) // this in tandem with the static create offsets the player character the appropriate distance so it sits on top of the block below
 
 const levelChars = {
     ".": "empty",
@@ -37,6 +43,7 @@ const levelChars = {
 
 
 class Level {
+
     constructor(plan) {
         let rows = plan.trim().split("/").map(l => [...l]);
         this.height = rows.length;
@@ -48,7 +55,7 @@ class Level {
                 let type = levelChars[ch];
                 if (typeof type === "string") return type;
                 this.startActors.push(
-                    type.create(new Vec(x, y), ch));
+                    type.create(new Vector(x, y), ch));
                 return "empty";
             });
         });
@@ -56,6 +63,7 @@ class Level {
 }
 
 class State {
+
     constructor(level, actors, status) {
         this.level = level;
         this.actors = actors;
@@ -71,8 +79,9 @@ class State {
     }
 }
 
+// helper method to create an element and give it attributes + child nodes
 
-function elt(name, attrs, ...children) {
+function createElementHelper(name, attrs, ...children) {
     let dom = document.createElement(name);
     for (let attr of Object.keys(attrs)) {
         dom.setAttribute(attr, attrs[attr]);
@@ -85,8 +94,9 @@ function elt(name, attrs, ...children) {
 
 
 class DOMDisplay {
+    
     constructor(parent, level) {
-        this.dom = elt("div", { class: "game" }, drawGrid(level));
+        this.dom = createElementHelper("div", { class: "game" }, drawGrid(level));
         this.actorLayer = null;
         parent.appendChild(this.dom);
     }
@@ -105,7 +115,7 @@ DOMDisplay.prototype.syncState = function (state) {
 DOMDisplay.prototype.scrollPlayerIntoView = function (state) {
     let width = this.dom.clientWidth;
     let height = this.dom.clientHeight;
-    let margin = width / 3;
+    let margin = width;
 
     // The viewport
     let left = this.dom.scrollLeft, right = left + width;
@@ -130,18 +140,18 @@ DOMDisplay.prototype.scrollPlayerIntoView = function (state) {
 const scale = 64;
 
 function drawGrid(level) {
-    return elt("table", {
+    return createElementHelper("table", {
         class: "background",
         style: `width: ${level.width * scale}px`
     }, ...level.rows.map(row =>
-        elt("tr", { style: `height: ${scale}px` },
-            ...row.map(type => elt("td", { class: type })))
+        createElementHelper("tr", { style: `height: ${scale}px` },
+            ...row.map(type => createElementHelper("td", { class: type })))
     ));
 }
 
 function drawActors(actors) {
-    return elt("div", {}, ...actors.map(actor => {
-        let rect = elt("div", { class: `actor ${actor.type}` });
+    return createElementHelper("div", {}, ...actors.map(actor => {
+        let rect = createElementHelper("div", { class: `actor ${actor.type}` });
         rect.style.width = `${actor.size.x * scale}px`;
         rect.style.height = `${actor.size.y * scale}px`;
         rect.style.left = `${actor.pos.x * scale}px`;
@@ -204,13 +214,13 @@ Player.prototype.update = function (time, state, keys) {
     if (keys.a) xSpeed -= playerXSpeed;
     if (keys.d) xSpeed += playerXSpeed;
     let pos = this.pos;
-    let movedX = pos.plus(new Vec(xSpeed * time, 0));
+    let movedX = pos.plus(new Vector(xSpeed * time, 0));
     if (!state.level.touches(movedX, this.size, "wall")) {
         pos = movedX;
     }
 
     let ySpeed = this.speed.y + time * gravity;
-    let movedY = pos.plus(new Vec(0, ySpeed * time));
+    let movedY = pos.plus(new Vector(0, ySpeed * time));
     if (!state.level.touches(movedY, this.size, "wall")) {
         pos = movedY;
     } else if (keys.w && ySpeed > 0) {
@@ -218,7 +228,7 @@ Player.prototype.update = function (time, state, keys) {
     } else {
         ySpeed = 0;
     }
-    return new Player(pos, new Vec(xSpeed, ySpeed));
+    return new Player(pos, new Vector(xSpeed, ySpeed));
 };
 
 function trackKeys(keys) {
@@ -284,6 +294,8 @@ async function runGame(plans, Display) {
 class CanvasDisplay {
     constructor(level) {
         this.canvas = document.createElement("canvas");
+        // this.canvas.width = Math.min(950, level.width * scale);
+        // this.canvas.height = Math.min(550, level.height * scale);
         let parent = document.getElementById("canvas-container");
         parent.appendChild(this.canvas);
         this.canvas.width = 950;
@@ -337,7 +349,7 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
     if (status == "won") {
         this.cx.fillStyle = "rgb(68, 191, 255)";
     } else if (status == "lost") {
-        this.cx.fillStyle = "rgb(44, 136, 214)";
+        // this.cx.fillStyle = "rgb(44, 136, 214)";
     } else {
         this.cx.fillStyle = "rgb(80, 77, 77)";
     }
@@ -429,9 +441,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let GAME_LEVELS = [
-        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++++###/####################/####################/####################`,
-        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++++###/####################/####################/####################`,
-        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++++###/####################/####################/####################`
+        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++#######/#####++++++++#######/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
+        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`,
+        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`
     ];
 
     runGame(GAME_LEVELS, CanvasDisplay);
