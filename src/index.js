@@ -33,11 +33,29 @@ class Player {
 
 Player.prototype.size = new Vector(0.8, 1.6) // this in tandem with the static create offsets the player character the appropriate distance so it sits on top of the block below
 
+class Door {
+
+    constructor(pos) {
+        this.pos = pos;
+    }
+
+    get type() {return "door";}
+
+    static create(pos) {
+        return new Door(pos.plus(new Vector(-0.1, -0.2)),
+            new Vector(0, 0));
+    }
+
+}
+
+Door.prototype.size = new Vector(1, 1.2)
+
+
 const levelChars = {
     ".": "empty",
     "#": "wall",
     "+": "lava",
-    "d": "door",
+    "d": Door,
     "@": Player
 };
 
@@ -54,7 +72,7 @@ class Level {
             return row.map((ch, x) => {
                 let type = levelChars[ch];
                 if (typeof type === "string") return type;
-                this.startActors.push(
+                this.startActors.unshift(
                     type.create(new Vector(x, y), ch));
                 return "empty";
             });
@@ -198,6 +216,10 @@ State.prototype.update = function (time, keys) {
     return newState;
 };
 
+Door.prototype.collide = function(state) {
+    return new State(state.level, state.actors, "won");
+};
+
 function overlap(actor1, actor2) {
     return actor1.pos.x + actor1.size.x > actor2.pos.x &&
         actor1.pos.x < actor2.pos.x + actor2.size.x &&
@@ -230,6 +252,10 @@ Player.prototype.update = function (time, state, keys) {
     }
     return new Player(pos, new Vector(xSpeed, ySpeed));
 };
+
+Door.prototype.update = function(time) {
+    return new Door(this.pos)
+}
 
 function trackKeys(keys) {
     let down = Object.create(null);
@@ -285,7 +311,10 @@ async function runGame(plans, Display) {
     for (let level = 0; level < plans.length;) {
         let status = await runLevel(new Level(plans[level]),
             Display);
-        if (status == "won") level++;
+        if (status == "won") {
+            console.log(`You beat level ${level + 1}`);
+            level++;
+        }
     }
     console.log("You've won!");
 }
@@ -359,7 +388,7 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
 };
 
 let otherSprites = document.createElement("img");
-otherSprites.src = "background_sprites.png";
+otherSprites.src = "background_spritesheet.png";
 
 let background = document.createElement("img");
 background.src = "Background.png";
@@ -380,6 +409,14 @@ CanvasDisplay.prototype.drawBackground = function (level) {
             let screenX = (x - left) * scale;
             let screenY = (y - top) * scale;
             let tileX = tile == "lava" ? scale : 0;
+            // let tileX
+            // if (tile == "lava") {
+            //     tileX = scale
+            // } else if (tile == "door") {
+            //     tileX = scale * 2
+            // } else {
+            //     tileX = 0
+            // }
             this.cx.drawImage(otherSprites,
                 tileX, 0, scale, scale,
                 screenX, screenY, scale, scale);
@@ -434,12 +471,13 @@ CanvasDisplay.prototype.drawActors = function (actors) {
         if (actor.type == "player") {
             this.drawPlayer(actor, x, y, width, height);
         }
-        // else {
-        //     let tileX = (actor.type == "coin" ? 2 : 1) * scale;
-        //     this.cx.drawImage(otherSprites,
-        //         tileX, 0, width, height,
-        //         x, y, width, height);
-        // }
+        else {
+            let tileX = (actor.type == "door" ? scale * 2 : scale);
+
+            this.cx.drawImage(otherSprites,
+                tileX, 0, width, height,
+                x, y, width, height);
+        }
     }
 };
 
@@ -447,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let GAME_LEVELS = [
-        `..................../..................../..................../................####/@...#######........./#####............###/#####++++++++#######/#####++++++++#######/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
+        `..................../..................../..................../................####/@..d#######........./#####............###/#####++++++++#######/#####++++++++#####d#/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
         `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`,
         `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`
     ];
