@@ -283,7 +283,6 @@ async function runGame(plans, Display) {
 
 class CanvasDisplay {
     constructor(level) {
-        // this.canvas = document.getElementById('game-canvas');
         this.canvas = document.createElement("canvas");
         let parent = document.getElementById("canvas-container");
         parent.appendChild(this.canvas);
