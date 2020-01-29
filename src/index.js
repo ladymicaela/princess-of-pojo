@@ -292,7 +292,7 @@ async function runGame(plans, Display) {
 
 
 class CanvasDisplay {
-    constructor(level) {
+    constructor() {
         this.canvas = document.createElement("canvas");
         let parent = document.getElementById("canvas-container");
         parent.appendChild(this.canvas);
@@ -350,7 +350,7 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
     if (status == "won") {
         this.cx.fillStyle = "rgb(68, 191, 255)";
     } else if (status == "lost") {
-        // this.cx.fillStyle = "rgb(44, 136, 214)";
+        this.cx.fillStyle = "rgb(238, 136, 136)";  //light red color
     } else {
         this.cx.fillStyle = "rgb(80, 77, 77)";
     }
@@ -361,12 +361,17 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
 let otherSprites = document.createElement("img");
 otherSprites.src = "background_sprites.png";
 
+let background = document.createElement("img");
+background.src = "Background.png";
+
 CanvasDisplay.prototype.drawBackground = function (level) {
     let { left, top, width, height } = this.viewport;
     let xStart = Math.floor(left);
     let xEnd = Math.ceil(left + width);
     let yStart = Math.floor(top);
     let yEnd = Math.ceil(top + height);
+
+    this.cx.drawImage(background, 0, 0, 950, 550)
 
     for (let y = yStart; y < yEnd; y++) {
         for (let x = xStart; x < xEnd; x++) {
@@ -442,7 +447,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let GAME_LEVELS = [
-        `..................../..................../..................../................####/@...##########....../#####............###/#####++++++++#######/#####++++++++#######/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
+        `..................../..................../..................../................####/@...#######........./#####............###/#####++++++++#######/#####++++++++#######/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
         `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`,
         `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`
     ];
