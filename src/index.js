@@ -283,7 +283,10 @@ async function runGame(plans, Display) {
 
 class CanvasDisplay {
     constructor(level) {
-        this.canvas = document.getElementById('game-canvas');
+        // this.canvas = document.getElementById('game-canvas');
+        this.canvas = document.createElement("canvas");
+        let parent = document.getElementById("canvas-container");
+        parent.appendChild(this.canvas);
         this.canvas.width = 950;
         this.canvas.height = 550;
 
@@ -337,7 +340,7 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
     } else if (status == "lost") {
         this.cx.fillStyle = "rgb(44, 136, 214)";
     } else {
-        this.cx.fillStyle = "rgb(52, 166, 251)";
+        this.cx.fillStyle = "rgb(80, 77, 77)";
     }
     this.cx.fillRect(0, 0,
         this.canvas.width, this.canvas.height);
