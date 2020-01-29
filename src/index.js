@@ -93,49 +93,49 @@ function createElementHelper(name, attrs, ...children) {
 }
 
 
-class DOMDisplay {
-    
-    constructor(parent, level) {
-        this.dom = createElementHelper("div", { class: "game" }, drawGrid(level));
-        this.actorLayer = null;
-        parent.appendChild(this.dom);
-    }
+// class DOMDisplay {
 
-    clear() { this.dom.remove(); }
-}
+//     constructor(parent, level) {
+//         this.dom = createElementHelper("div", { class: "game" }, drawGrid(level));
+//         this.actorLayer = null;
+//         parent.appendChild(this.dom);
+//     }
 
-DOMDisplay.prototype.syncState = function (state) {
-    if (this.actorLayer) this.actorLayer.remove();
-    this.actorLayer = drawActors(state.actors);
-    this.dom.appendChild(this.actorLayer);
-    this.dom.className = `game ${state.status}`;
-    this.scrollPlayerIntoView(state);
-};
+//     clear() { this.dom.remove(); }
+// }
 
-DOMDisplay.prototype.scrollPlayerIntoView = function (state) {
-    let width = this.dom.clientWidth;
-    let height = this.dom.clientHeight;
-    let margin = width;
+// DOMDisplay.prototype.syncState = function (state) {
+//     if (this.actorLayer) this.actorLayer.remove();
+//     this.actorLayer = drawActors(state.actors);
+//     this.dom.appendChild(this.actorLayer);
+//     this.dom.className = `game ${state.status}`;
+//     this.scrollPlayerIntoView(state);
+// };
 
-    // The viewport
-    let left = this.dom.scrollLeft, right = left + width;
-    let top = this.dom.scrollTop, bottom = top + height;
+// DOMDisplay.prototype.scrollPlayerIntoView = function (state) {
+//     let width = this.dom.clientWidth;
+//     let height = this.dom.clientHeight;
+//     let margin = width;
 
-    let player = state.player;
-    let center = player.pos.plus(player.size.times(0.5))
-        .times(scale);
+//     // The viewport
+//     let left = this.dom.scrollLeft, right = left + width;
+//     let top = this.dom.scrollTop, bottom = top + height;
 
-    if (center.x < left + margin) {
-        this.dom.scrollLeft = center.x - margin;
-    } else if (center.x > right - margin) {
-        this.dom.scrollLeft = center.x + margin - width;
-    }
-    if (center.y < top + margin) {
-        this.dom.scrollTop = center.y - margin;
-    } else if (center.y > bottom - margin) {
-        this.dom.scrollTop = center.y + margin - height;
-    }
-};
+//     let player = state.player;
+//     let center = player.pos.plus(player.size.times(0.5))
+//         .times(scale);
+
+//     if (center.x < left + margin) {
+//         this.dom.scrollLeft = center.x - margin;
+//     } else if (center.x > right - margin) {
+//         this.dom.scrollLeft = center.x + margin - width;
+//     }
+//     if (center.y < top + margin) {
+//         this.dom.scrollTop = center.y - margin;
+//     } else if (center.y > bottom - margin) {
+//         this.dom.scrollTop = center.y + margin - height;
+//     }
+// };
 
 const scale = 64;
 
@@ -207,7 +207,7 @@ function overlap(actor1, actor2) {
 
 const playerXSpeed = 7;
 const gravity = 30;
-const jumpSpeed = 10;
+const jumpSpeed = 11.5;
 
 Player.prototype.update = function (time, state, keys) {
     let xSpeed = 0;
@@ -294,8 +294,6 @@ async function runGame(plans, Display) {
 class CanvasDisplay {
     constructor(level) {
         this.canvas = document.createElement("canvas");
-        // this.canvas.width = Math.min(950, level.width * scale);
-        // this.canvas.height = Math.min(550, level.height * scale);
         let parent = document.getElementById("canvas-container");
         parent.appendChild(this.canvas);
         this.canvas.width = 950;
@@ -337,12 +335,15 @@ CanvasDisplay.prototype.updateViewport = function (state) {
         view.left = Math.min(center.x + margin - view.width,
             state.level.width - view.width);
     }
-    if (center.y < view.top + margin) {
-        view.top = Math.max(center.y - margin, 0);
-    } else if (center.y > view.top + view.height - margin) {
-        view.top = Math.min(center.y + margin - view.height,
-            state.level.height - view.height);
-    }
+
+    // the below code gives JP a seizure because it freaks out if she goes too low
+
+    // if (center.y < view.top + margin) {
+    //     view.top = Math.max(center.y - margin, 0);
+    // } else if (center.y > view.top + view.height - margin) {
+    //     view.top = Math.min(center.y + margin - view.height,
+    //         state.level.height - view.height);
+    // }
 };
 
 CanvasDisplay.prototype.clearDisplay = function (status) {
@@ -441,7 +442,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let GAME_LEVELS = [
-        `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++#######/#####++++++++#######/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
+        `..................../..................../..................../................####/@...##########....../#####............###/#####++++++++#######/#####++++++++#######/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################/####################`,
         `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`,
         `..................../..................../..................../................####/@.......######....../#####............###/#####++++++++++++###/#####++++++++++#####/####################/####################/####################`
     ];
