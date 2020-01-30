@@ -14,7 +14,6 @@ class Vector {
 
 }
 
-
 class Player {
 
     constructor(pos, speed) {
@@ -349,14 +348,6 @@ CanvasDisplay.prototype.updateViewport = function (state) {
             state.level.width - view.width);
     }
 
-    // the below code gives JP a seizure because it freaks out if she goes too low
-
-    // if (center.y < view.top + margin) {
-    //     view.top = Math.max(center.y - margin, 0);
-    // } else if (center.y > view.top + view.height - margin) {
-    //     view.top = Math.min(center.y + margin - view.height,
-    //         state.level.height - view.height);
-    // }
 };
 
 CanvasDisplay.prototype.clearDisplay = function (status) {
@@ -393,8 +384,6 @@ CanvasDisplay.prototype.drawBackground = function (level) {
             let screenX = (x - left) * scale;
             let screenY = (y - top) * scale;
 
-            // let tileX = tile == "lava" ? scale : 0;
-
             let tileX;
 
             if (tile == "lava") {
@@ -404,7 +393,6 @@ CanvasDisplay.prototype.drawBackground = function (level) {
             } else {
                 tileX = 0
             }
-
 
             this.cx.drawImage(otherSprites,
                 tileX, 0, scale, scale,

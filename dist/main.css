@@ -4,8 +4,7 @@ body {
     align-items: center;
     width: 100%;
     font-family: 'Uncial Antiqua', cursive;
-    /* background-image: url('myst.png'); */
-    /* background-color: rgb(117, 111, 111); */
+    background-color: whitesmoke
 }
 
 .game-container {
@@ -58,7 +57,7 @@ canvas {
     border-radius: 10px;
     width: 300px;
     align-items: center;
-    background-color: #9985645d;
+    background-color: gainsboro;
 }
 
 .game-key-legend h1 {
@@ -126,7 +125,7 @@ footer {
     font-size: 20px;
 }
 
-/* new css from game tutorial below */
+/* CSS from game tutorial below */
 
 .background { 
     table-layout: fixed;
@@ -139,7 +138,5 @@ footer {
 
 .game {
   overflow: hidden;
-  max-width: 600px;
-  max-height: 450px;
   position: relative;
 }
