@@ -13,7 +13,7 @@ body {
 }
 
 canvas {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 950px;
     height: 530px;
     border-radius: 10px;
@@ -128,22 +128,6 @@ footer {
 
 .background td { 
     padding: 0;
-}
-
-.lava { 
-    /* background: rgb(255, 100, 100); */
-    /* background-image: url("./lava_tile1.png"); */
-}
-
-.wall { 
-    /* background: grey; */
-    /* background-image: url("./tile5.png"); */
-}
-
-.door {
-  /* background: black;
-  border: solid black;
-  border-radius: 10px; */
 }
 
 .actor {
