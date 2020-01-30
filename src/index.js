@@ -271,6 +271,7 @@ function runLevel(level, Display) {
 
 async function runGame(plans, Display) {
     for (let level = 0; level < plans.length;) {
+        document.getElementById("level").textContent = `Level: ${level+1}`
         let status = await runLevel(new Level(plans[level]),
             Display);
         if (status == "won") {
@@ -347,13 +348,13 @@ CanvasDisplay.prototype.updateViewport = function (state) {
 };
 
 CanvasDisplay.prototype.clearDisplay = function (status) {
-    if (status == "won") {
-        this.cx.fillStyle = "rgb(68, 191, 255)";
-    } else if (status == "lost") {
-        this.cx.fillStyle = "rgb(238, 136, 136)";  //light red color
-    } else {
-        this.cx.fillStyle = "rgb(80, 77, 77)";
-    }
+    // if (status == "won") {
+    //     this.cx.fillStyle = "rgb(68, 191, 255)";
+    // } else if (status == "lost") {
+    //     this.cx.fillStyle = "rgb(238, 136, 136)";  //light red color
+    // } else {
+    //     this.cx.fillStyle = "rgb(80, 77, 77)";
+    // }
     this.cx.fillRect(0, 0,
         this.canvas.width, this.canvas.height);
 };

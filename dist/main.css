@@ -117,32 +117,20 @@ footer {
     margin: 0 10px;
 }
 
+#level {
+    align-self: flex-start;
+    font-size: 20px;
+}
+
 /* new css from game tutorial below */
 
 .background { 
-    /* background: lightgray; */
     table-layout: fixed;
     border-spacing: 0;
-    /* background-image: url("./Background.png"); */
 }
 
 .background td { 
     padding: 0;
-}
-
-.actor {
-    position: absolute;
-}
-
-.player { 
-    /* background: rgb(64, 64, 64); */
-}
-
-.lost .player {
-  /* background: rgb(160, 64, 64); */
-}
-.won .player {
-  /* box-shadow: -4px -7px 8px white, 4px -7px 8px white; */
 }
 
 .game {
