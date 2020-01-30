@@ -16,9 +16,10 @@ class Vector {
 
 class Player {
 
-    constructor(pos, speed) {
+    constructor(pos, speed, slashing) {
         this.pos = pos;
         this.speed = speed;
+        this.slashing = slashing;
     }
 
     get type() { return "player"; }
@@ -76,7 +77,14 @@ Enemy.prototype.update = function (time, state) {
 };
 
 Enemy.prototype.collide = function(state) {
-    return new State(state.level, state.actors, "lost");
+    let filtered = state.actors.filter(a => a.type != "enemy");
+    let player = state.actors.filter(a => a.type == "player").shift();
+    let status = state.status;
+    if (player.slashing) {
+        return new State(state.level, filtered, status);
+    } else { 
+        return new State(state.level, state.actors, "lost");
+    }
 }
 
 
@@ -233,8 +241,10 @@ const enemyXSpeed = 7;
 
 Player.prototype.update = function (time, state, keys) {
     let xSpeed = 0;
+    let slashing = false;
     if (keys.a) xSpeed -= playerXSpeed;
     if (keys.d) xSpeed += playerXSpeed;
+    if (keys.Shift) slashing = true;
     let pos = this.pos;
     let movedX = pos.plus(new Vector(xSpeed * time, 0));
     if (!state.level.touches(movedX, this.size, "wall")) {
@@ -250,7 +260,7 @@ Player.prototype.update = function (time, state, keys) {
     } else {
         ySpeed = 0;
     }
-    return new Player(pos, new Vector(xSpeed, ySpeed));
+    return new Player(pos, new Vector(xSpeed, ySpeed), slashing);
 };
 
 Door.prototype.update = function(time) {
@@ -269,8 +279,8 @@ function trackKeys(keys) {
     return down;
 }
 
-const arrowKeys =
-    trackKeys(["a", "d", "w"]);
+const keys =
+    trackKeys(["a", "d", "w", "Shift"]);
 
 function runAnimation(frameFunc) {
     let lastTime = null;
@@ -291,7 +301,7 @@ function runLevel(level, Display) {
     let ending = .5;
     return new Promise(resolve => {
         runAnimation(time => {
-            state = state.update(time, arrowKeys);
+            state = state.update(time, keys);
             display.syncState(state);
             if (state.status == "playing") {
                 return true;
@@ -445,6 +455,10 @@ function flipHorizontally(context, around) {
 
 let playerSprites = document.createElement("img");
 playerSprites.src = "spritesheet2.png";
+
+let slashingSprites = document.createElement("img");
+slashingSprites.src = "slashing_spritesheet.png";
+
 const playerXOverlap = 38;
 const playerYOverlap = 10;
 
@@ -468,8 +482,18 @@ CanvasDisplay.prototype.drawPlayer = function (player, x, y,
     if (this.flipPlayer) {
         flipHorizontally(this.cx, x + width / 2);
     }
+
+    let spriteImg;
+
+    if (player.slashing) {
+        spriteImg = slashingSprites;
+    } else {
+        spriteImg = playerSprites;
+    }
+
     let tileX = tile * width;
-    this.cx.drawImage(playerSprites, tileX, 0, width, height,
+
+    this.cx.drawImage(spriteImg, tileX, 0, width, height,
         x, y, width, height);
     this.cx.restore();
 };
@@ -530,7 +554,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let GAME_LEVELS = [
-        `........................../........................../.............|...e|......d/..............####......##/..........##...##......###/@.........##...##....#####/###~~~~~####~~~##~~~~#####/###+++++####+++##++++#####/##########################`, `#########................./#########d|.e........|..../#####################...##/.......................###/.......................###/.......#.#.##....##..#####/@#.#.#.#~#~##..####~~#####/##~#~#~#+#+##~~####++#####/##########################`, `........................../.|.................e..|.../..####################..../....................##..../#..e..............|.##..../##################..##...d/....................##~~##/@..................###++##/######################++##`
+        `........................../........................../.........................d/..............####......##/..........##...##......###/@.........##...##....#####/###~~~~~####~~~##~~~~#####/###+++++####+++##++++#####/##########################`, `#########................./#########d|.e........|..../#####################...##/.......................###/.......................###/@........####.........####/####~###~####~~####~~#####/####+###+####++####++#####/##########################`, `........................../.|.................e..|.../..####################..../....................##..../#..e..............|.##..../##################..##...d/....................##~~##/@..................###++##/######################++##`
     ];
 
     runGame(GAME_LEVELS, CanvasDisplay);
