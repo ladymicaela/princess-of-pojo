@@ -50,12 +50,44 @@ class Door {
 Door.prototype.size = new Vector(1, 1.2)
 
 
+class Enemy {
+    constructor(pos, speed) {
+        this.pos = pos;
+        this.speed = speed;
+    }
+
+    get type() {return "enemy";}
+
+    static create(pos) {
+        return new Enemy(pos.plus(new Vector(0, -0.6)),
+            new Vector(2, 0))
+    }
+}
+
+Enemy.prototype.size = new Vector(0.8, 1.6);
+
+Enemy.prototype.update = function (time, state) {
+    let newPos = this.pos.plus(this.speed.times(time));
+    if (!state.level.touches(newPos, this.size, "invisibleWall")) {
+        return new Enemy(newPos, this.speed, this.reset);
+    } else {
+        return new Enemy(this.pos, this.speed.times(-1));
+    }
+};
+
+Enemy.prototype.collide = function(state) {
+    return new State(state.level, state.actors, "lost");
+}
+
+
 const levelChars = {
     ".": "empty",
     "#": "wall",
+    "|": "invisibleWall",
     "+": "lava",
     "~": "lavaTop",
     "d": Door,
+    "e": Enemy,
     "@": Player
 };
 
@@ -197,6 +229,8 @@ const playerXSpeed = 7;
 const gravity = 30;
 const jumpSpeed = 11.5;
 
+const enemyXSpeed = 7;
+
 Player.prototype.update = function (time, state, keys) {
     let xSpeed = 0;
     if (keys.a) xSpeed -= playerXSpeed;
@@ -315,6 +349,8 @@ class CanvasDisplay {
 
         this.flipPlayer = false;
 
+        this.flipEnemy = false;
+
         this.viewport = {
             left: 0,
             top: 0,
@@ -380,7 +416,7 @@ CanvasDisplay.prototype.drawBackground = function (level) {
     for (let y = yStart; y < yEnd; y++) {
         for (let x = xStart; x < xEnd; x++) {
             let tile = level.rows[y][x];
-            if (tile == "empty") continue;
+            if (tile == "empty" || tile == "invisibleWall") continue;
             let screenX = (x - left) * scale;
             let screenY = (y - top) * scale;
 
@@ -438,6 +474,37 @@ CanvasDisplay.prototype.drawPlayer = function (player, x, y,
     this.cx.restore();
 };
 
+let enemySprites = document.createElement("img");
+enemySprites.src = "enemy_spritesheet.png";
+const enemyXOverlap = 38;
+const enemyYOverlap = 10;
+
+CanvasDisplay.prototype.drawEnemy = function (enemy, x, y,
+    width, height) {
+    width += enemyXOverlap * 2;
+    height += enemyYOverlap
+    x -= enemyXOverlap;
+    if (enemy.speed.x != 0) {
+        this.flipEnemy = enemy.speed.x < 0;
+    }
+
+    let tile = 8;
+    if (enemy.speed.y != 0) {
+        tile = 0;
+    } else if (enemy.speed.x != 0) {
+        tile = Math.floor(Date.now() / 60) % 11;
+    }
+
+    this.cx.save();
+    if (this.flipEnemy) {
+        flipHorizontally(this.cx, x + width / 2);
+    }
+    let tileX = tile * width;
+    this.cx.drawImage(enemySprites, tileX, 0, width, height,
+        x, y, width, height);
+    this.cx.restore();
+};
+
 
 CanvasDisplay.prototype.drawActors = function (actors) {
     for (let actor of actors) {
@@ -447,8 +514,9 @@ CanvasDisplay.prototype.drawActors = function (actors) {
         let y = (actor.pos.y - this.viewport.top) * scale;
         if (actor.type == "player") {
             this.drawPlayer(actor, x, y, width, height);
-        }
-        else {
+        } else if (actor.type == "enemy") {
+            this.drawEnemy(actor, x, y, width, height);
+        } else {
             let tileX = (actor.type == "door" ? scale * 2 : scale);
 
             this.cx.drawImage(otherSprites,
@@ -462,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let GAME_LEVELS = [
-        `........................../........................../.........................d/..............####......##/..........##...##......###/@.........##...##....#####/###.....####~~~##~~~~#####/###~~~~~####+++##++++#####/##########################`, `#########................./#########d................/#####################...##/.......................###/.......................###/.......#.#.##....##..#####/@#.#.#.#~#~##..####~~#####/##~#~#~#+#+##~~####++#####/##########################`, `........................../........................../..####################..../....................##..../#...................##..../##################..##...d/....................##~~##/@..................###++##/######################++##`
+        `........................../........................../.............|...e|......d/..............####......##/..........##...##......###/@.........##...##....#####/###~~~~~####~~~##~~~~#####/###+++++####+++##++++#####/##########################`, `#########................./#########d|.e........|..../#####################...##/.......................###/.......................###/.......#.#.##....##..#####/@#.#.#.#~#~##..####~~#####/##~#~#~#+#+##~~####++#####/##########################`, `........................../.|.................e..|.../..####################..../....................##..../#..e..............|.##..../##################..##...d/....................##~~##/@..................###++##/######################++##`
     ];
 
     runGame(GAME_LEVELS, CanvasDisplay);
