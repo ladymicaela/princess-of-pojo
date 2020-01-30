@@ -4,6 +4,8 @@ body {
     align-items: center;
     width: 100%;
     font-family: 'Uncial Antiqua', cursive;
+    /* background-image: url('myst.png'); */
+    /* background-color: rgb(117, 111, 111); */
 }
 
 .game-container {
@@ -13,7 +15,6 @@ body {
 }
 
 canvas {
-    /* border: 1px solid black; */
     width: 950px;
     height: 530px;
     border-radius: 10px;
@@ -57,6 +58,7 @@ canvas {
     border-radius: 10px;
     width: 300px;
     align-items: center;
+    background-color: #9985645d;
 }
 
 .game-key-legend h1 {
@@ -89,6 +91,7 @@ canvas {
     justify-content: center;
     margin: 5px;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
 }
 
 .keyboard-key-shift {
@@ -102,6 +105,7 @@ canvas {
     justify-content: center;
     margin: 5px;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
 }
 
 footer {
