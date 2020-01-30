@@ -285,9 +285,16 @@ async function runGame(plans, Display) {
     canvasEl.width = 950;
     canvasEl.height = 550;
     let cx = canvasEl.getContext("2d");
-    cx.fillStyle = "#ffd700"
+    cx.fillStyle = "#FFFFFF"
     cx.fillRect(0, 0, 950, 550)
 
+    cx.font = "50px 'Uncial Antiqua', cursive";
+    cx.fillStyle = "#ffd700";
+    cx.textAlign = "center";
+    cx.fillText("VICTORY", 475, 175);
+
+
+    document.getElementById("level").textContent = `You Won! 🎉`
     console.log("You've won!");
 }
 
