@@ -454,7 +454,7 @@ function flipHorizontally(context, around) {
 }
 
 let playerSprites = document.createElement("img");
-playerSprites.src = "spritesheet2.png";
+playerSprites.src = "spritesheet.png";
 
 let slashingSprites = document.createElement("img");
 slashingSprites.src = "slashing_spritesheet.png";
