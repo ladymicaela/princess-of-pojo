@@ -1,6 +1,6 @@
 # Princess of Pojo
 
-[Live Link](https://ladymicaela.github.io/princess-of-pojo/dist/)
+[Live Link](https://ladymicaela.github.io/princess-of-pojo/dist/index.html)
 
 ## Background
 
