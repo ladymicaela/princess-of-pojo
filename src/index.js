@@ -545,7 +545,7 @@ function displayIntroText() {
     grd.addColorStop(1, "white");
     cx.fillStyle = grd;
     cx.fillRect(0, 0, 950, 550)
-    cx.font = "20px 'Uncial Antiqua', cursive";
+    cx.font = "30px 'Uncial Antiqua', cursive";
     cx.fillStyle = "black";
     cx.textAlign = "center";
     cx.fillText("Your father, the Sultan of Pojo, is off fighting a war in a foreign land...", 475, 100)
