@@ -19,4 +19,4 @@ This project was implemented with the following technologies:
 With this Prince of Persia variation, users are able to:
 * Have basic movement such as: run left / right, jump
 * Battle enemies (sword fights)
-* Navigate through levels avoiding various traps
+* Navigate through levels avoiding various traps (lava, spike pits, etc.)

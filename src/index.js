@@ -377,7 +377,7 @@ class CanvasDisplay {
 
 CanvasDisplay.prototype.syncState = function (state) {
     this.updateViewport(state);
-    this.clearDisplay(state.status);
+    // this.clearDisplay(state.status);
     this.drawBackground(state.level);
     this.drawActors(state.actors);
 };
@@ -397,20 +397,13 @@ CanvasDisplay.prototype.updateViewport = function (state) {
 
 };
 
-CanvasDisplay.prototype.clearDisplay = function (status) {
-    // if (status == "won") {
-    //     this.cx.fillStyle = "rgb(68, 191, 255)";
-    // } else if (status == "lost") {
-    //     this.cx.fillStyle = "rgb(238, 136, 136)";  //light red color
-    // } else {
-    //     this.cx.fillStyle = "rgb(80, 77, 77)";
-    // }
-    this.cx.fillRect(0, 0,
-        this.canvas.width, this.canvas.height);
-};
+// CanvasDisplay.prototype.clearDisplay = function (status) {
+//     this.cx.fillRect(0, 0,
+//         this.canvas.width, this.canvas.height);
+// };
 
 let otherSprites = document.createElement("img");
-otherSprites.src = "background_spritesheet2.png";
+otherSprites.src = "background_spritesheet.png";
 
 let background = document.createElement("img");
 background.src = "Background.png";
