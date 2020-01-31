@@ -550,7 +550,7 @@ function displayIntroText() {
     cx.textAlign = "center";
     cx.fillText("Your father, the Sultan of Pojo, is off fighting a war in a foreign land...", 475, 100)
     cx.fillText("But in his absence, the vizier Java, has seized power...", 475, 175)
-    cx.fillText("Java gave you the ultimatium to marry him.. or be killed...", 475, 250)
+    cx.fillText("Java gave you the ultimatum to marry him.. or be killed...", 475, 250)
     cx.fillText("Being the strong independent Princess that you are, you chose the third option...", 475, 325)
     cx.fillText("Rescue yourself!!", 475, 400)
 }
