@@ -559,7 +559,7 @@ function displayIntroText() {
 
     cx.fillStyle = grd;
     cx.fillRect(0, 0, 950, 550)
-    cx.font = "24px 'Uncial Antiqua', cursive";
+    cx.font = "30px 'Uncial Antiqua', cursive";
     cx.fillStyle = "black";
     cx.textAlign = "center";
 
