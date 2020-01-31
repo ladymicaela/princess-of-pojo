@@ -50,7 +50,6 @@ class Door {
 
 Door.prototype.size = new Vector(1, 1.2)
 
-
 class Enemy {
     constructor(pos, speed) {
         this.pos = pos;
@@ -87,7 +86,6 @@ Enemy.prototype.collide = function(state) {
     }
 }
 
-
 const levelChars = {
     ".": "empty",
     "#": "wall",
@@ -98,7 +96,6 @@ const levelChars = {
     "e": Enemy,
     "@": Player
 };
-
 
 class Level {
 
@@ -196,7 +193,6 @@ Level.prototype.touches = function (pos, size, type) {
     }
     return false;
 };
-
 
 State.prototype.update = function (time, keys) {
     let actors = this.actors
@@ -529,7 +525,6 @@ CanvasDisplay.prototype.drawEnemy = function (enemy, x, y,
     this.cx.restore();
 };
 
-
 CanvasDisplay.prototype.drawActors = function (actors) {
     for (let actor of actors) {
         let width = actor.size.x * scale;
@@ -559,4 +554,3 @@ document.addEventListener("DOMContentLoaded", function () {
     runGame(GAME_LEVELS, CanvasDisplay);
 
 });
-
