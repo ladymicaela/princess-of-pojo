@@ -237,7 +237,6 @@ function overlap(actor1, actor2) {
 const playerXSpeed = 7;
 const gravity = 30;
 const jumpSpeed = 11.5;
-
 const enemyXSpeed = 7;
 
 Player.prototype.update = function (time, state, keys) {
@@ -348,7 +347,6 @@ async function runGame(plans, Display) {
     console.log("You've won!");
 }
 
-
 class CanvasDisplay {
     constructor() {
         this.canvas = document.createElement("canvas");
@@ -356,13 +354,9 @@ class CanvasDisplay {
         parent.appendChild(this.canvas);
         this.canvas.width = 950;
         this.canvas.height = 550;
-
         this.cx = this.canvas.getContext("2d");
-
         this.flipPlayer = false;
-
         this.flipEnemy = false;
-
         this.viewport = {
             left: 0,
             top: 0,
@@ -378,11 +372,9 @@ class CanvasDisplay {
 
 CanvasDisplay.prototype.syncState = function (state) {
     this.updateViewport(state);
-    // this.clearDisplay(state.status);
     this.drawBackground(state.level);
     this.drawActors(state.actors);
 };
-
 
 CanvasDisplay.prototype.updateViewport = function (state) {
     let view = this.viewport, margin = view.width / 3;
@@ -397,11 +389,6 @@ CanvasDisplay.prototype.updateViewport = function (state) {
     }
 
 };
-
-// CanvasDisplay.prototype.clearDisplay = function (status) {
-//     this.cx.fillRect(0, 0,
-//         this.canvas.width, this.canvas.height);
-// };
 
 let otherSprites = document.createElement("img");
 otherSprites.src = "background_spritesheet.png";
@@ -424,7 +411,6 @@ CanvasDisplay.prototype.drawBackground = function (level) {
             if (tile == "empty" || tile == "invisibleWall") continue;
             let screenX = (x - left) * scale;
             let screenY = (y - top) * scale;
-
             let tileX;
 
             if (tile == "lava") {
@@ -556,13 +542,11 @@ function displayIntroText() {
     let grd = cx.createLinearGradient(0, 0, 800, 0);
     grd.addColorStop(0, "gold");
     grd.addColorStop(1, "white");
-
     cx.fillStyle = grd;
     cx.fillRect(0, 0, 950, 550)
     cx.font = "30px 'Uncial Antiqua', cursive";
     cx.fillStyle = "black";
     cx.textAlign = "center";
-
     cx.fillText("Your father, the Sultan of Pojo, is off fighting a war in a foreign land..", 475, 100)
     cx.fillText("But in his absence, the vizier Java, has seized power...", 475, 175)
     cx.fillText("Java gave you the ultimatium to marry him.. or be killed...", 475, 250)
@@ -588,7 +572,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
 });
-
 
 let GAME_LEVELS = [
     `........................../........................../.............|...e|......d/..............####......##/..........##...##......###/@.........##~~~##~~~~#####/###~~~~~####+++##++++#####/###+++++####+++##++++#####/##########################`,
