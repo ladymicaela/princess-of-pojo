@@ -34,6 +34,8 @@ button {
     color: black;
     cursor: pointer;
     outline: none;
+    box-shadow: 2.5px 5px 4px #888888;
+
 }
 
 button:hover {
