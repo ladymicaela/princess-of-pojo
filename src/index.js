@@ -92,6 +92,7 @@ const levelChars = {
     "|": "invisibleWall",
     "+": "lava",
     "~": "lavaTop",
+    "T": "trap",
     "d": Door,
     "e": Enemy,
     "@": Player
@@ -207,6 +208,10 @@ State.prototype.update = function (time, keys) {
     }
 
     if (this.level.touches(player.pos, player.size, "lavaTop")) {
+        return new State(this.level, actors, "lost");
+    }
+
+    if (this.level.touches(player.pos, player.size, "trap")) {
         return new State(this.level, actors, "lost");
     }
 
@@ -405,7 +410,7 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
 };
 
 let otherSprites = document.createElement("img");
-otherSprites.src = "background_spritesheet.png";
+otherSprites.src = "background_spritesheet2.png";
 
 let background = document.createElement("img");
 background.src = "Background.png";
@@ -432,6 +437,8 @@ CanvasDisplay.prototype.drawBackground = function (level) {
                 tileX = scale
             } else if (tile == "lavaTop") {
                 tileX = scale * 3
+            } else if (tile == "trap") {
+                tileX = scale * 4
             } else {
                 tileX = 0
             }
@@ -548,7 +555,9 @@ CanvasDisplay.prototype.drawActors = function (actors) {
 document.addEventListener("DOMContentLoaded", function () {
 
     let GAME_LEVELS = [
-        `........................../........................../.........................d/..............####......##/..........##...##......###/@.........##...##....#####/###~~~~~####~~~##~~~~#####/###+++++####+++##++++#####/##########################`, `#########................./#########d|.e........|..../######################..##/.......................###/.......................###/@........####.........####/####~###~####~~####~~#####/####+###+####++####++#####/##########################`, `........................../.|.................e..|.../..####################..../....................##..../#|.e..............|.##..../##################..##...d/....................##~~##/@..................###++##/######################++##`
+        `........................../........................../.............|...e|......d/..............####......##/..........##...##......###/@.........##~~~##~~~~#####/###~~~~~####+++##++++#####/###+++++####+++##++++#####/##########################`,
+        `#########................./#########d|.e........|..../######################..##/.......................###/.......................###/@........####.........####/##T####~~####~~####~~#####/#######++####++####++#####/##########################`,
+        `........................../.|.................e..|.../..####################..../....................##..../#|.e..............|.##..../##################..##...d/....................##~~##/@..................###++##/####T######T##########++##`
     ];
 
     runGame(GAME_LEVELS, CanvasDisplay);
