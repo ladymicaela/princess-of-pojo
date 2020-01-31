@@ -13,6 +13,29 @@ body {
     width: 100%;
 }
 
+button {
+    position: absolute;
+    font-weight: bold;
+    top: 600px;
+    left: 815px;
+    width: 80px;
+    font-size: 20px;
+    height: 40px;
+    padding: 5px;
+    border: 3px solid white;
+    text-align: center;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    outline: none;
+}
+
+button:hover {
+    border: 3px solid gold;
+    background-color: gold;
+}
+
 canvas {
     width: 950px;
     height: 530px;
