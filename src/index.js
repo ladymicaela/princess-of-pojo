@@ -341,7 +341,7 @@ async function runGame(plans, Display) {
     cx.font = "60px 'Uncial Antiqua', cursive";
     cx.fillStyle = "black";
     cx.textAlign = "center";
-    cx.fillText("👑 VICTORY 👑", 475, 275)
+    cx.fillText("👑 YOU GO GIRL 👑", 475, 275)
 
 
     document.getElementById("level").textContent = `You Won! 🎉`
